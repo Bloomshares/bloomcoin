@@ -1,0 +1,696 @@
+# Copyright (c) 2013-2016 The Bitcoin Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+bin_PROGRAMS += qt/bloomcoin-qt
+EXTRA_LIBRARIES += qt/libbitcoinqt.a
+
+# bloomcoin qt core #
+include Makefile.qt_locale.include
+
+QT_FORMS_UI = \
+  qt/forms/addressbookpage.ui \
+  qt/forms/askpassphrasedialog.ui \
+  qt/forms/coincontroldialog.ui \
+  qt/forms/editaddressdialog.ui \
+  qt/forms/helpmessagedialog.ui \
+  qt/forms/intro.ui \
+  qt/forms/openuridialog.ui \
+  qt/forms/optionsdialog.ui \
+  qt/forms/rpcconsole.ui \
+  qt/bloomcoin/forms/loadingdialog.ui \
+  qt/bloomcoin/forms/snackbar.ui \
+  qt/bloomcoin/forms/navmenuwidget.ui \
+  qt/bloomcoin/forms/lockunlock.ui \
+  qt/bloomcoin/forms/expandablebutton.ui \
+  qt/bloomcoin/forms/receivedialog.ui \
+  qt/bloomcoin/forms/topbar.ui \
+  qt/bloomcoin/forms/txrow.ui \
+  qt/bloomcoin/forms/dashboardwidget.ui \
+  qt/bloomcoin/forms/addresslabelrow.ui \
+  qt/bloomcoin/forms/contactdropdownrow.ui \
+  qt/bloomcoin/forms/mninfodialog.ui \
+  qt/bloomcoin/forms/optionbutton.ui \
+  qt/bloomcoin/forms/masternodewizarddialog.ui \
+  qt/bloomcoin/forms/mnrow.ui \
+  qt/bloomcoin/forms/masternodeswidget.ui \
+  qt/bloomcoin/forms/myaddressrow.ui \
+  qt/bloomcoin/forms/sendchangeaddressdialog.ui \
+  qt/bloomcoin/forms/sendconfirmdialog.ui \
+  qt/bloomcoin/forms/sendcustomfeedialog.ui \
+  qt/bloomcoin/forms/sendchangeaddressdialog.ui \
+  qt/bloomcoin/forms/sendmultirow.ui \
+  qt/bloomcoin/forms/send.ui \
+  qt/bloomcoin/forms/addnewaddressdialog.ui \
+  qt/bloomcoin/forms/addnewcontactdialog.ui \
+  qt/bloomcoin/forms/requestdialog.ui \
+  qt/bloomcoin/forms/receivewidget.ui \
+  qt/bloomcoin/forms/tooltipmenu.ui \
+  qt/bloomcoin/forms/addresseswidget.ui \
+  qt/bloomcoin/forms/defaultdialog.ui \
+  qt/bloomcoin/settings/forms/settingsbackupwallet.ui \
+  qt/bloomcoin/settings/forms/settingsexportcsv.ui \
+  qt/bloomcoin/settings/forms/settingsbittoolwidget.ui \
+  qt/bloomcoin/settings/forms/settingsconsolewidget.ui \
+  qt/bloomcoin/settings/forms/settingsdisplayoptionswidget.ui \
+  qt/bloomcoin/settings/forms/settingsfaqwidget.ui \
+  qt/bloomcoin/settings/forms/settingsinformationwidget.ui \
+  qt/bloomcoin/settings/forms/settingsmainoptionswidget.ui \
+  qt/bloomcoin/settings/forms/settingsmultisenddialog.ui \
+  qt/bloomcoin/settings/forms/settingsmultisendwidget.ui \
+  qt/bloomcoin/settings/forms/settingssignmessagewidgets.ui \
+  qt/bloomcoin/settings/forms/settingswalletoptionswidget.ui \
+  qt/bloomcoin/settings/forms/settingswalletrepairwidget.ui \
+  qt/bloomcoin/settings/forms/settingswidget.ui \
+  qt/bloomcoin/forms/welcomecontentwidget.ui \
+  qt/bloomcoin/forms/splash.ui
+
+QT_MOC_CPP = \
+  qt/moc_addressbookpage.cpp \
+  qt/moc_addresstablemodel.cpp \
+  qt/moc_askpassphrasedialog.cpp \
+  qt/moc_bantablemodel.cpp \
+  qt/moc_bitcoinaddressvalidator.cpp \
+  qt/bloomcoin/moc_bloomcoingui.cpp \
+  qt/moc_bitcoinunits.cpp \
+  qt/moc_clientmodel.cpp \
+  qt/moc_coincontroldialog.cpp \
+  qt/moc_coincontroltreewidget.cpp \
+  qt/moc_csvmodelwriter.cpp \
+  qt/moc_editaddressdialog.cpp \
+  qt/moc_guiutil.cpp \
+  qt/moc_intro.cpp \
+  qt/moc_macdockiconhandler.cpp \
+  qt/moc_macnotificationhandler.cpp \
+  qt/moc_notificator.cpp \
+  qt/moc_openuridialog.cpp \
+  qt/moc_optionsdialog.cpp \
+  qt/moc_optionsmodel.cpp \
+  qt/moc_peertablemodel.cpp \
+  qt/moc_paymentserver.cpp \
+  qt/moc_qvalidatedlineedit.cpp \
+  qt/moc_qvaluecombobox.cpp \
+  qt/moc_recentrequeststablemodel.cpp \
+  qt/moc_rpcconsole.cpp \
+  qt/moc_trafficgraphwidget.cpp \
+  qt/moc_transactionfilterproxy.cpp \
+  qt/moc_transactiontablemodel.cpp \
+  qt/moc_utilitydialog.cpp \
+  qt/moc_walletmodel.cpp \
+  qt/bloomcoin/moc_loadingdialog.cpp \
+  qt/bloomcoin/moc_pwidget.cpp \
+  qt/bloomcoin/moc_focuseddialog.cpp \
+  qt/bloomcoin/moc_snackbar.cpp \
+  qt/bloomcoin/moc_navmenuwidget.cpp \
+  qt/bloomcoin/moc_lockunlock.cpp \
+  qt/bloomcoin/moc_expandablebutton.cpp \
+  qt/bloomcoin/moc_furabstractlistitemdelegate.cpp \
+  qt/bloomcoin/moc_receivedialog.cpp \
+  qt/bloomcoin/moc_pfborderimage.cpp \
+  qt/bloomcoin/moc_topbar.cpp \
+  qt/bloomcoin/moc_txrow.cpp \
+  qt/bloomcoin/moc_dashboardwidget.cpp \
+  qt/bloomcoin/moc_addresslabelrow.cpp \
+  qt/bloomcoin/moc_contactdropdownrow.cpp \
+  qt/bloomcoin/moc_mninfodialog.cpp \
+  qt/bloomcoin/moc_optionbutton.cpp \
+  qt/bloomcoin/moc_mnmodel.cpp \
+  qt/bloomcoin/moc_masternodewizarddialog.cpp \
+  qt/bloomcoin/moc_mnrow.cpp \
+  qt/bloomcoin/moc_masternodeswidget.cpp \
+  qt/bloomcoin/moc_myaddressrow.cpp \
+  qt/bloomcoin/moc_contactsdropdown.cpp \
+  qt/bloomcoin/moc_sendchangeaddressdialog.cpp \
+  qt/bloomcoin/moc_sendconfirmdialog.cpp \
+  qt/bloomcoin/moc_sendcustomfeedialog.cpp \
+  qt/bloomcoin/moc_sendchangeaddressdialog.cpp \
+  qt/bloomcoin/moc_sendmultirow.cpp \
+  qt/bloomcoin/moc_send.cpp \
+  qt/bloomcoin/moc_addnewaddressdialog.cpp \
+  qt/bloomcoin/moc_addnewcontactdialog.cpp \
+  qt/bloomcoin/moc_requestdialog.cpp \
+  qt/bloomcoin/moc_receivewidget.cpp \
+  qt/bloomcoin/moc_tooltipmenu.cpp \
+  qt/bloomcoin/moc_addresseswidget.cpp \
+  qt/bloomcoin/moc_defaultdialog.cpp \
+  qt/bloomcoin/settings/moc_settingsbackupwallet.cpp \
+  qt/bloomcoin/settings/moc_settingsexportcsv.cpp \
+  qt/bloomcoin/settings/moc_settingsbittoolwidget.cpp \
+  qt/bloomcoin/settings/moc_settingsconsolewidget.cpp \
+  qt/bloomcoin/settings/moc_settingsdisplayoptionswidget.cpp \
+  qt/bloomcoin/settings/moc_settingsfaqwidget.cpp \
+  qt/bloomcoin/settings/moc_settingsinformationwidget.cpp \
+  qt/bloomcoin/settings/moc_settingsmainoptionswidget.cpp \
+  qt/bloomcoin/settings/moc_settingsmultisenddialog.cpp \
+  qt/bloomcoin/settings/moc_settingsmultisendwidget.cpp \
+  qt/bloomcoin/settings/moc_settingssignmessagewidgets.cpp \
+  qt/bloomcoin/settings/moc_settingswalletoptionswidget.cpp \
+  qt/bloomcoin/settings/moc_settingswalletrepairwidget.cpp \
+  qt/bloomcoin/settings/moc_settingswidget.cpp \
+  qt/bloomcoin/moc_welcomecontentwidget.cpp \
+  qt/bloomcoin/moc_splash.cpp
+
+BITCOIN_MM = \
+  qt/macdockiconhandler.mm \
+  qt/macnotificationhandler.mm
+
+QT_MOC = \
+  qt/bloomcoin.moc \
+  qt/intro.moc \
+  qt/rpcconsole.moc \
+  qt/bloomcoin/settings/moc_settingsconsolewidget.cpp
+
+QT_QRC_CPP = qt/qrc_bloomcoin.cpp
+QT_QRC = qt/bloomcoin.qrc
+QT_QRC_LOCALE_CPP = qt/qrc_bloomcoin_locale.cpp
+QT_QRC_LOCALE = qt/bloomcoin_locale.qrc
+
+PROTOBUF_CC = qt/paymentrequest.pb.cc
+PROTOBUF_H = qt/paymentrequest.pb.h
+PROTOBUF_PROTO = qt/paymentrequest.proto
+
+BITCOIN_QT_H = \
+  qt/addressbookpage.h \
+  qt/addresstablemodel.h \
+  qt/askpassphrasedialog.h \
+  qt/bantablemodel.h \
+  qt/bitcoinaddressvalidator.h \
+  qt/bloomcoin/bloomcoingui.h \
+  qt/bitcoinunits.h \
+  qt/clientmodel.h \
+  qt/coincontroldialog.h \
+  qt/coincontroltreewidget.h \
+  qt/csvmodelwriter.h \
+  qt/editaddressdialog.h \
+  qt/guiconstants.h \
+  qt/guiutil.h \
+  qt/intro.h \
+  qt/macdockiconhandler.h \
+  qt/macnotificationhandler.h \
+  qt/networkstyle.h \
+  qt/notificator.h \
+  qt/openuridialog.h \
+  qt/optionsdialog.h \
+  qt/optionsmodel.h \
+  qt/paymentrequestplus.h \
+  qt/paymentserver.h \
+  qt/peertablemodel.h \
+  qt/platformstyle.h \
+  qt/qvalidatedlineedit.h \
+  qt/qvaluecombobox.h \
+  qt/recentrequeststablemodel.h \
+  qt/rpcconsole.h \
+  qt/trafficgraphwidget.h \
+  qt/transactionfilterproxy.h \
+  qt/transactionrecord.h \
+  qt/transactiontablemodel.h \
+  qt/utilitydialog.h \
+  qt/walletmodel.h \
+  qt/walletmodeltransaction.h \
+  qt/bloomcoin/prunnable.h \
+  qt/bloomcoin/pfborderimage.h \
+  qt/bloomcoin/loadingdialog.h \
+  qt/winshutdownmonitor.h \
+  qt/bloomcoin/pwidget.h \
+  qt/bloomcoin/focuseddialog.h \
+  qt/bloomcoin/guitransactionsutils.h \
+  qt/bloomcoin/snackbar.h \
+  qt/bloomcoin/navmenuwidget.h \
+  qt/bloomcoin/lockunlock.h \
+  qt/bloomcoin/receivedialog.h \
+  qt/bloomcoin/furlistrow.h \
+  qt/bloomcoin/furabstractlistitemdelegate.h \
+  qt/bloomcoin/txviewholder.h \
+  qt/bloomcoin/qtutils.h \
+  qt/bloomcoin/expandablebutton.h \
+  qt/bloomcoin/topbar.h \
+  qt/bloomcoin/txrow.h \
+  qt/bloomcoin/addressholder.h \
+  qt/bloomcoin/addressfilterproxymodel.h \
+  qt/bloomcoin/dashboardwidget.h \
+  qt/bloomcoin/addresslabelrow.h \
+  qt/bloomcoin/contactdropdownrow.h \
+  qt/bloomcoin/mninfodialog.h \
+  qt/bloomcoin/optionbutton.h \
+  qt/bloomcoin/mnmodel.h \
+  qt/bloomcoin/masternodewizarddialog.h \
+  qt/bloomcoin/mnrow.h \
+  qt/bloomcoin/masternodeswidget.h \
+  qt/bloomcoin/myaddressrow.h \
+  qt/bloomcoin/contactsdropdown.h \
+  qt/bloomcoin/sendchangeaddressdialog.h \
+  qt/bloomcoin/sendconfirmdialog.h \
+  qt/bloomcoin/sendcustomfeedialog.h \
+  qt/bloomcoin/sendchangeaddressdialog.h \
+  qt/bloomcoin/sendmultirow.h \
+  qt/bloomcoin/send.h \
+  qt/bloomcoin/addnewaddressdialog.h \
+  qt/bloomcoin/addnewcontactdialog.h \
+  qt/bloomcoin/requestdialog.h \
+  qt/bloomcoin/receivewidget.h \
+  qt/bloomcoin/tooltipmenu.h \
+  qt/bloomcoin/addresseswidget.h \
+  qt/bloomcoin/defaultdialog.h \
+  qt/bloomcoin/settings/settingsbackupwallet.h \
+  qt/bloomcoin/settings/settingsexportcsv.h \
+  qt/bloomcoin/settings/settingsbittoolwidget.h \
+  qt/bloomcoin/settings/settingsconsolewidget.h \
+  qt/bloomcoin/settings/settingsdisplayoptionswidget.h \
+  qt/bloomcoin/settings/settingsfaqwidget.h \
+  qt/bloomcoin/settings/settingsinformationwidget.h \
+  qt/bloomcoin/settings/settingsmainoptionswidget.h \
+  qt/bloomcoin/settings/settingsmultisenddialog.h \
+  qt/bloomcoin/settings/settingsmultisendwidget.h \
+  qt/bloomcoin/settings/settingssignmessagewidgets.h \
+  qt/bloomcoin/settings/settingswalletoptionswidget.h \
+  qt/bloomcoin/settings/settingswalletrepairwidget.h \
+  qt/bloomcoin/settings/settingswidget.h \
+  qt/bloomcoin/welcomecontentwidget.h \
+  qt/bloomcoin/splash.h
+
+RES_ICONS = \
+  qt/res/icons/bitcoin.ico \
+  qt/res/icons/bitcoin.png \
+  qt/res/icons/bitcoin_testnet.ico \
+  qt/res/icons/bitcoin_testnet.png \
+  qt/res/icons/bitcoin_regtest.png \
+  qt/res/icons/lock_closed.png \
+  qt/res/icons/lock_open.png \
+  qt/res/icons/overview.png \
+  qt/res/icons/ic-transaction-received.svg \
+  qt/res/icons/ic-transaction-mint.svg \
+  qt/res/icons/ic-transaction-sent.svg \
+  qt/res/icons/ic-transaction-staked.svg \
+  qt/bloomcoin/res/img/bg-dashboard-banner.png \
+  qt/bloomcoin/res/img/bg-multi-number-dark.svg \
+  qt/bloomcoin/res/img/ic-check-locked.svg \
+  qt/bloomcoin/res/img/ic-check-console.svg \
+  qt/bloomcoin/res/img/ic-nav-address.svg \
+  qt/bloomcoin/res/img/ic-update.svg \
+  qt/bloomcoin/res/img/bg-multi-number.svg \
+  qt/bloomcoin/res/img/ic-check-mint-off.svg \
+  qt/bloomcoin/res/img/ic-nav-dashboard-active.png \
+  qt/bloomcoin/res/img/ic-wallet-status-locked.svg \
+  qt/bloomcoin/res/img/bg-splash.svg \
+  qt/bloomcoin/res/img/bg-splash.png \
+  qt/bloomcoin/res/img/ic-check-mint.svg \
+  qt/bloomcoin/res/img/ic-nav-dashboard-hover.png \
+  qt/bloomcoin/res/img/ic-wallet-status-staking.svg \
+  qt/bloomcoin/res/img/ic-check-peers-off.svg \
+  qt/bloomcoin/res/img/ic-nav-dashboard.png \
+  qt/bloomcoin/res/img/ic-wallet-status-unlocked.svg \
+  qt/bloomcoin/res/img/ic-check-peers.svg \
+  qt/bloomcoin/res/img/ic-nav-master-active.png \
+  qt/bloomcoin/res/img/ic-watch-password-white.svg \
+  qt/bloomcoin/res/img/bg-welcome-container.jpg \
+  qt/bloomcoin/res/img/bg-welcome-container.png \
+  qt/bloomcoin/res/img/bg-welcome-container.svg \
+  qt/bloomcoin/res/img/bg-welcome-container@2x.png \
+  qt/bloomcoin/res/img/bg-welcome-container@3x.png \
+  qt/bloomcoin/res/img/ic-check-staking-off.svg \
+  qt/bloomcoin/res/img/ic-nav-master-hover.png \
+  qt/bloomcoin/res/img/ic-watch-password.svg \
+  qt/bloomcoin/res/img/bg-welcome.jpg \
+  qt/bloomcoin/res/img/bg-welcome.svg \
+  qt/bloomcoin/res/img/bg-welcome@2x.jpg \
+  qt/bloomcoin/res/img/bg-welcome@3x.jpg \
+  qt/bloomcoin/res/img/bg-welcome.png \
+  qt/bloomcoin/res/img/ic-check-staking.svg \
+  qt/bloomcoin/res/img/ic-nav-master.png \
+  qt/bloomcoin/res/img/img-dashboard-banner.jpg \
+  qt/bloomcoin/res/img/btn-radio-active.svg \
+  qt/bloomcoin/res/img/ic-check-mn-conf.svg \
+  qt/bloomcoin/res/img/ic-check-coin-conf.svg \
+  qt/bloomcoin/res/img/ic-check-sync-off.svg \
+  qt/bloomcoin/res/img/ic-nav-privacy-active.svg \
+  qt/bloomcoin/res/img/img-empty-contacts.svg \
+  qt/bloomcoin/res/img/btn-radio-off.svg \
+  qt/bloomcoin/res/img/ic-check-sync.png \
+  qt/bloomcoin/res/img/ic-nav-privacy-hover.svg \
+  qt/bloomcoin/res/img/img-empty-dark-contacts.svg \
+  qt/bloomcoin/res/img/ic-contact-arrow-down.svg \
+  qt/bloomcoin/res/img/ic-contact-arrow-down-white.svg \
+  qt/bloomcoin/res/img/ic-check-sync.svg \
+  qt/bloomcoin/res/img/ic-check-faq.svg \
+  qt/bloomcoin/res/img/ic-nav-privacy.svg \
+  qt/bloomcoin/res/img/img-empty-dark-error.svg \
+  qt/bloomcoin/res/img/ic-add-label.svg \
+  qt/bloomcoin/res/img/ic-pending.svg \
+  qt/bloomcoin/res/img/ic-check-theme-dark.svg \
+  qt/bloomcoin/res/img/ic-nav-receive-active.svg \
+  qt/bloomcoin/res/img/img-empty-dark-masternode.svg \
+  qt/bloomcoin/res/img/ic-add-liliac.svg \
+  qt/bloomcoin/res/img/ic-check-theme-light.svg \
+  qt/bloomcoin/res/img/ic-nav-receive-hover.svg \
+  qt/bloomcoin/res/img/img-empty-dark-multisend.png \
+  qt/bloomcoin/res/img/ic-add-purple.svg \
+  qt/bloomcoin/res/img/ic-check-white.svg \
+  qt/bloomcoin/res/img/ic-nav-receive.svg \
+  qt/bloomcoin/res/img/img-empty-dark-peers.svg \
+  qt/bloomcoin/res/img/ic-add.svg \
+  qt/bloomcoin/res/img/ic-check.svg \
+  qt/bloomcoin/res/img/ic-nav-send-active.png \
+  qt/bloomcoin/res/img/img-empty-dark-staking-off.png \
+  qt/bloomcoin/res/img/img-empty-dark-staking-on.png \
+  qt/bloomcoin/res/img/ic-address-book-grey.svg \
+  qt/bloomcoin/res/img/ic-chevron-left.svg \
+  qt/bloomcoin/res/img/ic-nav-send-hover.png \
+  qt/bloomcoin/res/img/img-empty-dark-transactions.png \
+  qt/bloomcoin/res/img/ic-address-book-white.svg \
+  qt/bloomcoin/res/img/ic-chevron-right.svg \
+  qt/bloomcoin/res/img/ic-nav-send.png \
+  qt/bloomcoin/res/img/img-empty-error.svg \
+  qt/bloomcoin/res/img/ic-address-book.svg \
+  qt/bloomcoin/res/img/ic-clear-liliac.svg \
+  qt/bloomcoin/res/img/ic-nav-settings-active.svg \
+  qt/bloomcoin/res/img/img-empty-masternode.svg \
+  qt/bloomcoin/res/img/ic-address-send-white.svg \
+  qt/bloomcoin/res/img/ic-clear-purple.svg \
+  qt/bloomcoin/res/img/ic-nav-settings-hover.svg \
+  qt/bloomcoin/res/img/img-empty-multisend.png \
+  qt/bloomcoin/res/img/ic-address-send.svg \
+  qt/bloomcoin/res/img/ic-close-white.svg \
+  qt/bloomcoin/res/img/ic-nav-settings.svg \
+  qt/bloomcoin/res/img/img-empty-peers.svg \
+  qt/bloomcoin/res/img/img-empty-privacy.png \
+  qt/bloomcoin/res/img/img-empty-privacy-dark.png \
+  qt/bloomcoin/res/img/ic-arrow-drop-down-white.svg \
+  qt/bloomcoin/res/img/ic-close.svg \
+  qt/bloomcoin/res/img/ic-radio-liliac-on.svg \
+  qt/bloomcoin/res/img/img-empty-staking-off.png \
+  qt/bloomcoin/res/img/ic-arrow-drop-down.svg \
+  qt/bloomcoin/res/img/ic-coin-heirs.png \
+  qt/bloomcoin/res/img/ic-receive-off.svg \
+  qt/bloomcoin/res/img/img-empty-staking-on.png \
+  qt/bloomcoin/res/img/ic-arrow-drop-up-white.svg \
+  qt/bloomcoin/res/img/ic-receive-on.svg \
+  qt/bloomcoin/res/img/img-empty-transactions.png \
+  qt/bloomcoin/res/img/ic-arrow-drop-up.svg \
+  qt/bloomcoin/res/img/ic-received.svg \
+  qt/bloomcoin/res/img/img-logo-bloomcoin.png \
+  qt/bloomcoin/res/img/ic-arrow-drop-white-down.svg \
+  qt/bloomcoin/res/img/ic-combo-box.svg \
+  qt/bloomcoin/res/img/ic-send.svg \
+  qt/bloomcoin/res/img/img-logo-bloomcoin@2x.png \
+  qt/bloomcoin/res/img/ic-arrow-purple-down.svg \
+  qt/bloomcoin/res/img/ic-connect.svg \
+  qt/bloomcoin/res/img/ic-submenu-lock.svg \
+  qt/bloomcoin/res/img/img-logo-bloomcoin@3x.png \
+  qt/bloomcoin/res/img/img-logo-bloomcoin.svg \
+  qt/bloomcoin/res/img/ic-arrow-right-white.svg \
+  qt/bloomcoin/res/img/ic-arrow-left-white.svg \
+  qt/bloomcoin/res/img/ic-arrow-left.svg \
+  qt/bloomcoin/res/img/ic-copy-liliac.svg \
+  qt/bloomcoin/res/img/ic-submenu-staking.svg \
+  qt/bloomcoin/res/img/img-nav-logo-bloomcoin.png \
+  qt/bloomcoin/res/img/ic-arrow-right.svg \
+  qt/bloomcoin/res/img/ic-copy.svg \
+  qt/bloomcoin/res/img/ic-copy-big.svg \
+  qt/bloomcoin/res/img/ic-copy-big-white.svg \
+  qt/bloomcoin/res/img/ic-submenu-unlock.svg \
+  qt/bloomcoin/res/img/img-nav-logo.png \
+  qt/bloomcoin/res/img/ic-arrow-white-left.svg \
+  qt/bloomcoin/res/img/ic-exit.svg \
+  qt/bloomcoin/res/img/ic-switch-liliac-on.svg \
+  qt/bloomcoin/res/img/img-nav-logo.svg \
+  qt/bloomcoin/res/img/ic-arrow-white-right.svg \
+  qt/bloomcoin/res/img/ic-expand.svg \
+  qt/bloomcoin/res/img/ic-switch-off.svg \
+  qt/bloomcoin/res/img/img-qr-test-big.png \
+  qt/bloomcoin/res/img/ic-check-active.svg \
+  qt/bloomcoin/res/img/ic-folder.svg \
+  qt/bloomcoin/res/img/ic-switch-on.svg \
+  qt/bloomcoin/res/img/img-qr-test.png \
+  qt/bloomcoin/res/img/ic-check-box.svg \
+  qt/bloomcoin/res/img/ic-check-box-dark-active.svg \
+  qt/bloomcoin/res/img/ic-check-box-indeterminate.svg \
+  qt/bloomcoin/res/img/ic-check-box-liliac-indeterminate.svg \
+  qt/bloomcoin/res/img/ic-label-liliac.svg \
+  qt/bloomcoin/res/img/ic-transaction-warning.svg \
+  qt/bloomcoin/res/img/ic-transaction-mint.svg \
+  qt/bloomcoin/res/img/ic-transaction-mint-inactive.svg \
+  qt/bloomcoin/res/img/img-qr.svg \
+  qt/bloomcoin/res/img/ic-check-connect-off.svg \
+  qt/bloomcoin/res/img/ic-check-tor-off.svg \
+  qt/bloomcoin/res/img/ic-check-tor.svg \
+  qt/bloomcoin/res/img/ic-label.svg \
+  qt/bloomcoin/res/img/ic-transaction-received.svg \
+  qt/bloomcoin/res/img/dark/ic-transaction-received.svg \
+  qt/bloomcoin/res/img/dark/ic-transaction-warning.svg \
+  qt/bloomcoin/res/img/dark/ic-transaction-mint.svg \
+  qt/bloomcoin/res/img/dark/ic-transaction-mint-inactive.svg \
+  qt/bloomcoin/res/img/ic-transaction-received-inactive.svg \
+  qt/bloomcoin/res/img/dark/ic-transaction-received-inactive.svg \
+  qt/bloomcoin/res/img/img-welcome-step1.png \
+  qt/bloomcoin/res/img/ic-check-connect.svg \
+  qt/bloomcoin/res/img/ic-menu-hover.svg \
+  qt/bloomcoin/res/img/ic-transaction-sent.svg \
+  qt/bloomcoin/res/img/ic-transaction-sent-inactive.svg \
+  qt/bloomcoin/res/img/dark/ic-transaction-sent.svg \
+  qt/bloomcoin/res/img/dark/ic-transaction-sent-inactive.svg \
+  qt/bloomcoin/res/img/img-welcome-step2.png \
+  qt/bloomcoin/res/img/ic-check-dark.svg \
+  qt/bloomcoin/res/img/ic-mint.svg \
+  qt/bloomcoin/res/img/ic-transaction-staked.svg \
+  qt/bloomcoin/res/img/ic-transaction-staked-inactive.svg \
+  qt/bloomcoin/res/img/dark/ic-transaction-staked.svg \
+  qt/bloomcoin/res/img/dark/ic-transaction-staked-inactive.svg \
+  qt/bloomcoin/res/img/img-welcome-step3.png \
+  qt/bloomcoin/res/img/ic-check-liliac-on.svg \
+  qt/bloomcoin/res/img/ic-nav-address-active.svg \
+  qt/bloomcoin/res/img/ic-unlock-staking.svg \
+  qt/bloomcoin/res/img/img-welcome-step4.png \
+  qt/bloomcoin/res/img/ic-check-locked-off.svg \
+  qt/bloomcoin/res/img/ic-nav-address-hover.svg \
+  qt/bloomcoin/res/img/ic-update-liliac.svg \
+  qt/bloomcoin/res/img/ic-arrow-drop-down-purple.svg \
+  qt/bloomcoin/res/img/ic-arrow-drop-up-purple.png \
+  qt/bloomcoin/res/img/ic-check-liliac-indeterminate.svg \
+  qt/bloomcoin/res/img/ic-check-box-liliac-indeterminate.svg \
+  qt/bloomcoin/res/img/ic-check-box-indeterminate.svg \
+  qt/bloomcoin/res/img/ani-loading-dark.gif \
+  qt/bloomcoin/res/img/ani-loading.gif
+
+
+
+BITCOIN_QT_BASE_CPP = \
+  qt/bantablemodel.cpp \
+  qt/bitcoinaddressvalidator.cpp \
+  qt/bloomcoin/bloomcoingui.cpp \
+  qt/bitcoinunits.cpp \
+  qt/clientmodel.cpp \
+  qt/csvmodelwriter.cpp \
+  qt/guiutil.cpp \
+  qt/intro.cpp \
+  qt/networkstyle.cpp \
+  qt/notificator.cpp \
+  qt/optionsdialog.cpp \
+  qt/optionsmodel.cpp \
+  qt/peertablemodel.cpp \
+  qt/platformstyle.cpp \
+  qt/qvalidatedlineedit.cpp \
+  qt/qvaluecombobox.cpp \
+  qt/rpcconsole.cpp \
+  qt/trafficgraphwidget.cpp \
+  qt/utilitydialog.cpp
+
+BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
+
+BITCOIN_QT_WALLET_CPP = \
+  qt/addressbookpage.cpp \
+  qt/addresstablemodel.cpp \
+  qt/askpassphrasedialog.cpp \
+  qt/coincontroldialog.cpp \
+  qt/coincontroltreewidget.cpp \
+  qt/editaddressdialog.cpp \
+  qt/openuridialog.cpp \
+  qt/paymentrequestplus.cpp \
+  qt/paymentserver.cpp \
+  qt/recentrequeststablemodel.cpp \
+  qt/transactionfilterproxy.cpp \
+  qt/transactionrecord.cpp \
+  qt/transactiontablemodel.cpp \
+  qt/walletmodel.cpp \
+  qt/walletmodeltransaction.cpp \
+  qt/bloomcoin/loadingdialog.cpp \
+  qt/bloomcoin/pwidget.cpp \
+  qt/bloomcoin/focuseddialog.cpp \
+  qt/bloomcoin/guitransactionsutils.cpp \
+  qt/bloomcoin/snackbar.cpp \
+  qt/bloomcoin/navmenuwidget.cpp \
+  qt/bloomcoin/lockunlock.cpp \
+  qt/bloomcoin/receivedialog.cpp \
+  qt/bloomcoin/furabstractlistitemdelegate.cpp \
+  qt/bloomcoin/txviewholder.cpp \
+  qt/bloomcoin/qtutils.cpp \
+  qt/bloomcoin/expandablebutton.cpp \
+  qt/bloomcoin/topbar.cpp \
+  qt/bloomcoin/txrow.cpp \
+  qt/bloomcoin/addressholder.cpp \
+  qt/bloomcoin/addressfilterproxymodel.cpp \
+  qt/bloomcoin/dashboardwidget.cpp \
+  qt/bloomcoin/addresslabelrow.cpp \
+  qt/bloomcoin/contactdropdownrow.cpp \
+  qt/bloomcoin/contactsdropdown.cpp \
+  qt/bloomcoin/optionbutton.cpp \
+  qt/bloomcoin/mninfodialog.cpp \
+  qt/bloomcoin/mnmodel.cpp \
+  qt/bloomcoin/masternodewizarddialog.cpp \
+  qt/bloomcoin/mnrow.cpp \
+  qt/bloomcoin/masternodeswidget.cpp \
+  qt/bloomcoin/myaddressrow.cpp \
+  qt/bloomcoin/sendchangeaddressdialog.cpp \
+  qt/bloomcoin/sendconfirmdialog.cpp \
+  qt/bloomcoin/sendcustomfeedialog.cpp \
+  qt/bloomcoin/sendchangeaddressdialog.cpp \
+  qt/bloomcoin/sendmultirow.cpp \
+  qt/bloomcoin/send.cpp \
+  qt/bloomcoin/addnewaddressdialog.cpp \
+  qt/bloomcoin/addnewcontactdialog.cpp \
+  qt/bloomcoin/requestdialog.cpp \
+  qt/bloomcoin/receivewidget.cpp \
+  qt/bloomcoin/tooltipmenu.cpp \
+  qt/bloomcoin/addresseswidget.cpp \
+  qt/bloomcoin/defaultdialog.cpp \
+  qt/bloomcoin/settings/settingsbackupwallet.cpp \
+  qt/bloomcoin/settings/settingsexportcsv.cpp \
+  qt/bloomcoin/settings/settingsbittoolwidget.cpp \
+  qt/bloomcoin/settings/settingsconsolewidget.cpp \
+  qt/bloomcoin/settings/settingsdisplayoptionswidget.cpp \
+  qt/bloomcoin/settings/settingsfaqwidget.cpp \
+  qt/bloomcoin/settings/settingsinformationwidget.cpp \
+  qt/bloomcoin/settings/settingsmainoptionswidget.cpp \
+  qt/bloomcoin/settings/settingsmultisenddialog.cpp \
+  qt/bloomcoin/settings/settingsmultisendwidget.cpp \
+  qt/bloomcoin/settings/settingssignmessagewidgets.cpp \
+  qt/bloomcoin/settings/settingswalletoptionswidget.cpp \
+  qt/bloomcoin/settings/settingswalletrepairwidget.cpp \
+  qt/bloomcoin/settings/settingswidget.cpp \
+  qt/bloomcoin/welcomecontentwidget.cpp \
+  qt/bloomcoin/splash.cpp
+
+
+BITCOIN_QT_CPP = $(BITCOIN_QT_BASE_CPP)
+if TARGET_WINDOWS
+BITCOIN_QT_CPP += $(BITCOIN_QT_WINDOWS_CPP)
+endif
+if ENABLE_WALLET
+BITCOIN_QT_CPP += $(BITCOIN_QT_WALLET_CPP)
+endif
+
+RES_IMAGES = \
+  qt/res/images/about.png \
+  qt/res/images/splash.png \
+  qt/res/images/splash_testnet.png \
+  qt/res/images/splash_regtest.png
+
+RES_CSS = \
+  qt/res/css/default.css \
+  qt/bloomcoin/res/css/style_dark.css \
+  qt/bloomcoin/res/css/style_light.css
+
+BITCOIN_RC = qt/res/bloomcoin-qt-res.rc
+
+BITCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
+  -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
+
+qt_libbitcoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
+  $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS) $(SVG_CFLAGS) $(CHARTS_CFLAGS)
+qt_libbitcoinqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+qt_libbitcoinqt_a_OBJCXXFLAGS = $(AM_OBJCXXFLAGS) $(QT_PIE_FLAGS)
+
+qt_libbitcoinqt_a_SOURCES = $(BITCOIN_QT_CPP) $(BITCOIN_QT_H) $(QT_FORMS_UI) \
+  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS)
+
+nodist_qt_libbitcoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
+  $(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
+
+# forms/foo.h -> forms/ui_foo.h
+QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:.ui=.h))))
+
+# Most files will depend on the forms and moc files as includes. Generate them
+# before anything else.
+$(QT_MOC): $(QT_FORMS_H)
+$(qt_libbitcoinqt_a_OBJECTS) $(qt_bloomcoin_qt_OBJECTS) : | $(QT_MOC)
+
+#Generating these with a half-written protobuf header leads to wacky results.
+#This makes sure it's done.
+$(QT_MOC): $(PROTOBUF_H)
+$(QT_MOC_CPP): $(PROTOBUF_H)
+
+# bloomcoin-qt binary #
+qt_bloomcoin_qt_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
+  $(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS) $(SVG_CFLAGS) $(CHARTS_CFLAGS)
+qt_bloomcoin_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+
+qt_bloomcoin_qt_SOURCES = qt/bloomcoin.cpp
+if TARGET_DARWIN
+  qt_bloomcoin_qt_SOURCES += $(BITCOIN_MM)
+endif
+if TARGET_WINDOWS
+  qt_bloomcoin_qt_SOURCES += $(BITCOIN_RC)
+endif
+qt_bloomcoin_qt_LDADD = qt/libbitcoinqt.a $(LIBBITCOIN_SERVER)
+if ENABLE_WALLET
+qt_bloomcoin_qt_LDADD += $(LIBBITCOIN_UTIL) $(LIBBITCOIN_WALLET)
+endif
+if ENABLE_ZMQ
+qt_bloomcoin_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+endif
+qt_bloomcoin_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBZCASH_LIBS) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
+  $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(SVG_LIBS) $(CHARTS_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
+  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+qt_bloomcoin_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+qt_bloomcoin_qt_LIBTOOLFLAGS = $(AM_LIBTOOLFLAGS) --tag CXX
+
+#locale/foo.ts -> locale/foo.qm
+QT_QM=$(QT_TS:.ts=.qm)
+
+SECONDARY: $(QT_QM)
+
+$(srcdir)/qt/bloomcoinstrings.cpp: $(libbitcoin_server_a_SOURCES) $(libbitcoin_wallet_a_SOURCES) $(libbitcoin_common_a_SOURCES) $(libbitcoin_zmq_a_SOURCES) $(libbitcoin_util_a_SOURCES)
+	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
+	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) PACKAGE_NAME="$(PACKAGE_NAME)" $(PYTHON) ../share/qt/extract_strings_qt.py $^
+
+translate: $(srcdir)/qt/bloomcoinstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(BITCOIN_QT_BASE_CPP) qt/bloomcoin.cpp $(BITCOIN_QT_WINDOWS_CPP) $(BITCOIN_QT_WALLET_CPP) $(BITCOIN_QT_H) $(BITCOIN_MM)
+	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts $(srcdir)/qt/locale/bloomcoin_en.ts
+
+$(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
+	@test -f $(RCC)
+	@cp -f $< $(@D)/temp_$(<F)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name bloomcoin_locale $(@D)/temp_$(<F) | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+	@rm $(@D)/temp_$(<F)
+
+$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(PROTOBUF_H)
+	@test -f $(RCC)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name bloomcoin $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno qt/temp_bloomcoin_locale.qrc
+
+CLEANFILES += $(CLEAN_QT)
+
+bloomcoin_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libbitcoinqt_a_OBJECTS) $(qt_bloomcoin_qt_OBJECTS) qt/bloomcoin-qt$(EXEEXT) $(LIBBITCOINQT)
+
+bloomcoin_qt : qt/bloomcoin-qt$(EXEEXT)
+
+ui_%.h: %.ui
+	@test -f $(UIC)
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(UIC) -o $@ $< || (echo "Error creating $@"; false)
+
+%.moc: %.cpp
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+moc_%.cpp: %.h
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+
+%.qm: %.ts
+	@test -f $(LRELEASE)
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LRELEASE) -silent $< -qm $@

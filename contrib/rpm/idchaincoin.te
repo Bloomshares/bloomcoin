@@ -1,0 +1,81 @@
+policy_module(bloomcoin, 1.100.1)
+
+########################################
+#
+# Declarations
+#
+
+type bloomcoin_t;
+type bloomcoin_exec_t;
+init_daemon_domain(bloomcoin_t, bloomcoin_exec_t)
+
+permissive bloomcoin_t;
+
+type bloomcoin_initrc_exec_t;
+init_script_file(bloomcoin_initrc_exec_t)
+
+type bloomcoin_conf_t;
+files_type(bloomcoin_conf_t)
+
+type bloomcoin_var_lib_t;
+files_type(bloomcoin_var_lib_t)
+
+type bloomcoin_var_run_t;
+files_type(bloomcoin_var_run_t)
+
+type bloomcoin_port_t;
+corenet_port(bloomcoin_port_t)
+
+########################################
+#
+# bloomcoin local policy
+#
+allow bloomcoin_t self:process { fork };
+
+allow bloomcoin_t self:fifo_file rw_fifo_file_perms;
+allow bloomcoin_t self:unix_stream_socket create_stream_socket_perms;
+
+manage_dirs_pattern(bloomcoin_t, bloomcoin_conf_t, bloomcoin_conf_t)
+manage_files_pattern(bloomcoin_t, bloomcoin_conf_t, bloomcoin_conf_t)
+
+manage_dirs_pattern(bloomcoin_t, bloomcoin_var_lib_t, bloomcoin_var_lib_t)
+manage_files_pattern(bloomcoin_t, bloomcoin_var_lib_t, bloomcoin_var_lib_t)
+files_var_lib_filetrans(bloomcoin_t, bloomcoin_var_lib_t, { dir file })
+
+manage_dirs_pattern(bloomcoin_t, bloomcoin_var_run_t, bloomcoin_var_run_t)
+manage_files_pattern(bloomcoin_t, bloomcoin_var_run_t, bloomcoin_var_run_t)
+
+sysnet_dns_name_resolve(bloomcoin_t)
+corenet_all_recvfrom_unlabeled(bloomcoin_t)
+
+allow bloomcoin_t self:tcp_socket create_stream_socket_perms;
+corenet_tcp_sendrecv_generic_if(bloomcoin_t)
+corenet_tcp_sendrecv_generic_node(bloomcoin_t)
+corenet_tcp_sendrecv_all_ports(bloomcoin_t)
+corenet_tcp_bind_generic_node(bloomcoin_t)
+
+gen_require(`
+    type bloomcoin_port_t;
+')
+allow bloomcoin_t bloomcoin_port_t:tcp_socket name_bind;
+
+gen_require(`
+    type bloomcoin_port_t;
+')
+allow bloomcoin_t bloomcoin_port_t:tcp_socket name_connect;
+
+domain_use_interactive_fds(bloomcoin_t)
+
+files_read_etc_files(bloomcoin_t)
+
+miscfiles_read_localization(bloomcoin_t)
+
+sysnet_dns_name_resolve(bloomcoin_t)
+
+allow bloomcoin_t bloomcoin_exec_t:file execute_no_trans;
+allow bloomcoin_t self:process setsched;
+corecmd_exec_ls(bloomcoin_t)
+corenet_tcp_connect_http_port(bloomcoin_t)
+dev_read_urand(bloomcoin_t)
+fs_getattr_xattr_fs(bloomcoin_t)
+kernel_read_system_state(bloomcoin_t)

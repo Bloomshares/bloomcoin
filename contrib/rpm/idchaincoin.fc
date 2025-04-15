@@ -1,0 +1,8 @@
+/usr/bin/bloomcoin-cli		--	gen_context(system_u:object_r:bloomcoin_exec_t,s0)
+/usr/sbin/bloomcoind		--	gen_context(system_u:object_r:bloomcoin_exec_t,s0)
+/usr/lib(64)?/bloomcoin/bloomcoind		--	gen_context(system_u:object_r:bloomcoin_exec_t,s0)
+
+/etc/bloomcoin(/.*)?		gen_context(system_u:object_r:bloomcoin_conf_t,s0)
+/var/lib/bloomcoin(/.*)?		gen_context(system_u:object_r:bloomcoin_var_lib_t,s0)
+
+(/var)?/run/bloomcoind(/.*)?   gen_context(system_u:object_r:bloomcoin_var_run_t,s0)

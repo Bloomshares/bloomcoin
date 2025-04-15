@@ -1,0 +1,6 @@
+usr/local/bin/bloomcoin-qt usr/bin
+share/pixmaps/bloomcoin32.xpm usr/share/pixmaps
+share/pixmaps/bloomcoin16.xpm usr/share/pixmaps
+share/pixmaps/bloomcoin128.png usr/share/pixmaps
+debian/bloomcoin-qt.desktop usr/share/applications
+debian/bloomcoin-qt.protocol usr/share/kde4/services/
