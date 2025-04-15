@@ -1,0 +1,157 @@
+
+## <summary>policy for bloomcoin</summary>
+
+
+########################################
+## <summary>
+##	Transition to bloomcoin.
+## </summary>
+## <param name="domain">
+## <summary>
+##	Domain allowed to transition.
+## </summary>
+## </param>
+#
+interface(`bloomcoin_domtrans',`
+	gen_require(`
+		type bloomcoin_t, bloomcoin_exec_t;
+	')
+
+	corecmd_search_bin($1)
+	domtrans_pattern($1, bloomcoin_exec_t, bloomcoin_t)
+')
+
+
+########################################
+## <summary>
+##	Execute bloomcoin server in the bloomcoin domain.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`bloomcoin_initrc_domtrans',`
+	gen_require(`
+		type bloomcoin_initrc_exec_t;
+	')
+
+	init_labeled_script_domtrans($1, bloomcoin_initrc_exec_t)
+')
+
+
+########################################
+## <summary>
+##	Search bloomcoin lib directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`bloomcoin_search_lib',`
+	gen_require(`
+		type bloomcoin_var_lib_t;
+	')
+
+	allow $1 bloomcoin_var_lib_t:dir search_dir_perms;
+	files_search_var_lib($1)
+')
+
+########################################
+## <summary>
+##	Read bloomcoin lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`bloomcoin_read_lib_files',`
+	gen_require(`
+		type bloomcoin_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	read_files_pattern($1, bloomcoin_var_lib_t, bloomcoin_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Manage bloomcoin lib files.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`bloomcoin_manage_lib_files',`
+	gen_require(`
+		type bloomcoin_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	manage_files_pattern($1, bloomcoin_var_lib_t, bloomcoin_var_lib_t)
+')
+
+########################################
+## <summary>
+##	Manage bloomcoin lib directories.
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+#
+interface(`bloomcoin_manage_lib_dirs',`
+	gen_require(`
+		type bloomcoin_var_lib_t;
+	')
+
+	files_search_var_lib($1)
+	manage_dirs_pattern($1, bloomcoin_var_lib_t, bloomcoin_var_lib_t)
+')
+
+
+########################################
+## <summary>
+##	All of the rules required to administrate
+##	a bloomcoin environment
+## </summary>
+## <param name="domain">
+##	<summary>
+##	Domain allowed access.
+##	</summary>
+## </param>
+## <param name="role">
+##	<summary>
+##	Role allowed access.
+##	</summary>
+## </param>
+## <rolecap/>
+#
+interface(`bloomcoin_admin',`
+	gen_require(`
+		type bloomcoin_t;
+		type bloomcoin_initrc_exec_t;
+		type bloomcoin_var_lib_t;
+	')
+
+	allow $1 bloomcoin_t:process { ptrace signal_perms };
+	ps_process_pattern($1, bloomcoin_t)
+
+	bloomcoin_initrc_domtrans($1)
+	domain_system_change_exemption($1)
+	role_transition $2 bloomcoin_initrc_exec_t system_r;
+	allow $2 system_r;
+
+	files_search_var_lib($1)
+	admin_pattern($1, bloomcoin_var_lib_t)
+
+')
+

@@ -1,0 +1,15 @@
+QT_TS = \
+  qt/locale/bloomcoin_de.ts \
+  qt/locale/bloomcoin_en.ts \
+  qt/locale/bloomcoin_en_US.ts \
+  qt/locale/bloomcoin_es.ts \
+  qt/locale/bloomcoin_es_ES.ts \
+  qt/locale/bloomcoin_fr_FR.ts \
+  qt/locale/bloomcoin_hr_HR.ts \
+  qt/locale/bloomcoin_it.ts \
+  qt/locale/bloomcoin_ko_KR.ts \
+  qt/locale/bloomcoin_nl.ts \
+  qt/locale/bloomcoin_pl.ts \
+  qt/locale/bloomcoin_ru.ts \
+  qt/locale/bloomcoin_tr.ts \
+  qt/locale/bloomcoin_zh_CN.ts

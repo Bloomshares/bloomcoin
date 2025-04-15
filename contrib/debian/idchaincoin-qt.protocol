@@ -1,0 +1,11 @@
+[Protocol]
+exec=bloomcoin-qt '%u'
+protocol=bloomcoin
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false
